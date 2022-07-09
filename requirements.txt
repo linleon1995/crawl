@@ -1,0 +1,3 @@
+selenium
+mailbox
+webdriver_manager

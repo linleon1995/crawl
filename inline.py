@@ -37,7 +37,7 @@ def inlineFill(order_info):
 
     try:
         chrome = webdriver.Chrome(ChromeDriverManager().install())
-        chrome.implicitly_wait(3)
+        chrome.implicitly_wait(1)
         # chrome = webdriver.Chrome(options=options)
         chrome.get(order_info['url'])
         # select = Select(chrome.find_element_by_id("book-now"))
@@ -72,21 +72,20 @@ def inlineFill(order_info):
         # b.click()
 
         c = chrome.find_element_by_css_selector("div[id='date-picker']")
-        d = chrome.find_element_by_css_selector("div[data-date='2022-12-29']")
-        e = chrome.find_element_by_css_selector(
-            "button[data-cy='book-now-time-slot-box-15-30']")
+        d = chrome.find_element_by_css_selector(
+            f"div[data-date='{order_info['date']}']")
 
-        sleep(3)
-
-        c.location_once_scrolled_into_view
+        chrome.execute_script(f"window.scrollTo(0, {c.location['y']})")
         sleep(1)
         c.click()
 
-        d.location_once_scrolled_into_view
+        chrome.execute_script(f"window.scrollTo(0, {d.location['y']})")
         sleep(1)
         d.click()
 
-        e.location_once_scrolled_into_view
+        e = chrome.find_element_by_css_selector(
+            f"button[data-cy='book-now-time-slot-box-{order_info['time']}']")
+        chrome.execute_script(f"window.scrollTo(0, {e.location['y']})")
         sleep(1)
         e.click()
 
@@ -107,30 +106,18 @@ def inlineFill(order_info):
         # TODO: change implicity wait
         g = WebDriverWait(chrome, 20).until(
             EC.presence_of_element_located((By.XPATH, '//input[@id="name"]')))
-        g.send_keys("王聰明")
+        g.send_keys(order_info['name'])
+        # TODO: select gender
+        # k = WebDriverWait(chrome, 20).until(
+        #     EC.presence_of_element_located((By.XPATH, f'//input[@id="gender-{order_info["gender"]}"]')))
+        # k.click()
         h = WebDriverWait(chrome, 20).until(
             EC.presence_of_element_located((By.XPATH, '//input[@id="phone"]')))
-        h.send_keys("953216976")
+        h.send_keys(order_info['phone'])
 
         submit = chrome.find_element_by_css_selector(
             "button[data-cy='submit']")
         submit.click()
-
-        # # i = WebDriverWait(chrome, 20).until(EC.presence_of_element_located((By.CLASS_NAME, "sc-hiwPVj.dqCLhG")))
-        # i = WebDriverWait(chrome, 20).until(EC.presence_of_element_located(
-        #     (By.XPATH, '//input[@id="privacy-policy"]')))
-        # # i.location_once_scrolled_into_view
-        # # i.aria-checked
-        # # sleep(1)
-        # # i.sendKeys("true")
-        # # i.click()
-        # chrome.execute_script("arguments[0].click()", i)
-
-        # j = WebDriverWait(chrome, 20).until(
-        #     EC.presence_of_element_located((By.CLASS_NAME, "sc-ieecCq.eZhyRr")))
-        # j.location_once_scrolled_into_view
-        # sleep(1)
-        # j.click()
 
         pass
 
@@ -235,19 +222,28 @@ def readFile():
 
 
 if __name__ == "__main__":
-    # print(3)
-    # IdList = readFile()
-    # print(IdList)
-    # for id in IdList:
-    #     autoFill(id)
+    # 國秀食堂
+    url = rf"https://inline.app/booking/-MkBSdjj_81Mjn1vAZA6:inline-live-2/-MkBSdrkF0niJoOgE4yz?fbclid=IwAR0xEV5haTFwm7XnaU2lDpXXBL22UFkyavyFBZN3LEFE5LJfxXd4UerdTaA"
 
-    num_adult = 3
-    num_kid = 1
-    # url = rf"https://inline.app/booking/-MkBSdjj_81Mjn1vAZA6:inline-live-2/-MkBSdrkF0niJoOgE4yz?fbclid=IwAR0xEV5haTFwm7XnaU2lDpXXBL22UFkyavyFBZN3LEFE5LJfxXd4UerdTaA"
+    # 青花驕
     url = r"https://inline.app/booking/-MaXEQcbiWaRjXyLytUu:inline-live-2/-MaXER3I3tbJ6YWZIFGu"
+
+    # The Antipodean
     url = r'https://inline.app/booking/-L_qemGeN-S-qEAIAtd1:inline-live-2a466/-N0o8OYl1h-G6dH-bowt'
-    order_info = {'adult': num_adult,
-                  'kid': num_kid,
-                  'url': url}
+
+    # 海底撈
+    # url = r'https://inline.app/booking/-LamXb5SAQN7JcJfyRKi:inline-live-2a466/-LamXbrHgLYzPCKRO3QD'
+
+    # 詹紀
+    # url = r'https://inline.app/booking/-KO9-zyZTRpTH7LNAe99/-LOcon_dHjl7H4_PR39w?language=zh-tw'
+
+    order_info = {'name': '林敬翔',
+                  'phone': "953216976",
+                  'adult': 2,
+                  'gender': 'male',
+                  'kid': 0,
+                  'url': url,
+                  'date': '2022-12-16',
+                  'time': '10-00'}
     inlineFill(order_info)
     # autoFill('a')

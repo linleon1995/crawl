@@ -23,6 +23,7 @@ retryCount = 0
 # TODO: wait until scroll down
 # TODO: auto but slow, click when present button
 # TODO: test internet influence
+# TODO: update selenium version
 
 
 def info_check(order_info):
@@ -89,12 +90,7 @@ def inlineFill(order_info):
         sleep(1)
         e.click()
 
-        c_click = False
-        d_click = False
-        e_click = False
-        height = 0
         h = 200
-        timeout = 5
 
         f = chrome.find_element_by_css_selector(
             "button[data-cy='book-now-action-button']")
@@ -134,86 +130,6 @@ def inlineFill(order_info):
             inlineFill(id)
 
 
-# def autoFill(id):
-#     options = Options()
-#     options.add_argument("--no-sandbox")
-#     options.add_argument("--headless")
-
-#     chrome = webdriver.Chrome(ChromeDriverManager().install())
-
-#     chrome.get("https://inline.app/booking/-MkBSdjj_81Mjn1vAZA6:inline-live-2/-MkBSdrkF0niJoOgE4yz?fbclid=IwAR0xEV5haTFwm7XnaU2lDpXXBL22UFkyavyFBZN3LEFE5LJfxXd4UerdTaA")
-#     sleep(3)
-#     select = Select(chrome.find_element_by_id("adult-picker"))
-#     for op in select.options:
-#         print(op.text)
-#     select.select_by_index(8)
-#     print(3)
-#     try:
-#         chrome = webdriver.Chrome(ChromeDriverManager().install())
-#         # chrome = webdriver.Chrome(options=options)
-#         chrome.get("https://zh.surveymonkey.com/r/EmployeeHealthCheck")
-#         # chrome.get("https://inline.app/booking/-MkBSdjj_81Mjn1vAZA6:inline-live-2/-MkBSdrkF0niJoOgE4yz?fbclid=IwAR0xEV5haTFwm7XnaU2lDpXXBL22UFkyavyFBZN3LEFE5LJfxXd4UerdTaA")
-#         agreexpath = "//div[contains(@class,'radio-button-container')]//label//span[contains(@class,'radio-button-display')]"
-#         agreeCheck = WebDriverWait(chrome, 15).until(
-#             EC.visibility_of_element_located((By.XPATH, agreexpath)))
-#         # agreeCheck
-#         agreeCheck.click()
-
-#         employeeId = chrome.find_elements_by_xpath(
-#             "//div[contains(@class,'question-fieldset question-legend')]")
-#         employeeId.send_keys(id)
-
-#         # employId
-#         employeeId = chrome.find_elements_by_xpath(
-#             "//div[contains(@class,'question-body open-ended-single')]//input")[0]
-#         employeeId.send_keys(id)
-
-#         # foreheadTemp check
-#         foreheadCheckBtn = chrome.find_elements_by_xpath(
-#             "//div[contains(@class,'radio-button-container')]//label//span[contains(@class,'radio-button-display')]")[2]
-#         foreheadCheckBtn.click()
-
-#         # foreheadTemp
-#         Temperature = chrome.find_elements_by_xpath(
-#             "//div[contains(@class,'question-body open-ended-single')]//input")[1]
-#         foreheadDegree = str(round(random.uniform(34.1, 36.9), 1))
-#         Temperature.send_keys(foreheadDegree)
-
-#         # contacted people who returned from aboard in the last 14 days
-#         noContactBtn = chrome.find_elements_by_xpath(
-#             "//div[contains(@class,'radio-button-container')]//label//span[contains(@class,'radio-button-display')]")[5]
-#         noContactBtn.click()
-
-#         # declaration radio button
-#         declarationBtn = chrome.find_elements_by_xpath(
-#             "//div[contains(@class,'radio-button-container')]//label//span[contains(@class,'radio-button-display')]")[6]
-#         declarationBtn.click()
-
-#         # submit btn to next page
-#         submitBtn = chrome.find_elements_by_xpath(
-#             "//button[contains(text(), '下一頁')]")[0]
-#         submitBtn.click()
-
-#         # successful landing page
-#         compleredTxtPath = "(//span[@class='title-text'])"
-#         compleredTxt = WebDriverWait(chrome, 10, 1).until(
-#             EC.visibility_of_element_located((By.XPATH, compleredTxtPath))).text
-#         print(compleredTxt+id+" degree :"+foreheadDegree)
-#         chrome.quit()
-
-#     except TimeoutException:
-#         chrome.quit()
-#         global retryCount
-#         retryCount += 1
-#         if (retryCount == 2):
-#             print(id+" Write to error log")
-#             retryCount = 0
-#             pass
-#         else:
-#             print(id+" Try again")
-#             autoFill(id)
-
-
 def readFile():
     fileHandler = open("Id.txt", "r")
     IdList = fileHandler.read().splitlines()
@@ -234,7 +150,7 @@ if __name__ == "__main__":
     url = r'https://inline.app/booking/-L_qemGeN-S-qEAIAtd1:inline-live-2a466/-N0o8OYl1h-G6dH-bowt'
 
     # 海底撈
-    # url = r'https://inline.app/booking/-LamXb5SAQN7JcJfyRKi:inline-live-2a466/-LamXbrHgLYzPCKRO3QD'
+    url = r'https://inline.app/booking/-LamXb5SAQN7JcJfyRKi:inline-live-2a466/-LamXbrHgLYzPCKRO3QD'
 
     # 詹紀
     # url = r'https://inline.app/booking/-KO9-zyZTRpTH7LNAe99/-LOcon_dHjl7H4_PR39w?language=zh-tw'
@@ -245,7 +161,7 @@ if __name__ == "__main__":
                   'gender': 'male',
                   'kid': 0,
                   'url': url,
-                  'date': '2022-12-16',
-                  'time': '10-00'}
+                  'date': '2022-12-29',
+                  'time': '17-00'}
     inlineFill(order_info)
     # autoFill('a')

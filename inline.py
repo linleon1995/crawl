@@ -134,84 +134,84 @@ def inlineFill(order_info):
             inlineFill(id)
 
 
-def autoFill(id):
-    options = Options()
-    options.add_argument("--no-sandbox")
-    options.add_argument("--headless")
+# def autoFill(id):
+#     options = Options()
+#     options.add_argument("--no-sandbox")
+#     options.add_argument("--headless")
 
-    chrome = webdriver.Chrome(ChromeDriverManager().install())
+#     chrome = webdriver.Chrome(ChromeDriverManager().install())
 
-    chrome.get("https://inline.app/booking/-MkBSdjj_81Mjn1vAZA6:inline-live-2/-MkBSdrkF0niJoOgE4yz?fbclid=IwAR0xEV5haTFwm7XnaU2lDpXXBL22UFkyavyFBZN3LEFE5LJfxXd4UerdTaA")
-    sleep(3)
-    select = Select(chrome.find_element_by_id("adult-picker"))
-    for op in select.options:
-        print(op.text)
-    select.select_by_index(8)
-    print(3)
-    try:
-        chrome = webdriver.Chrome(ChromeDriverManager().install())
-        # chrome = webdriver.Chrome(options=options)
-        chrome.get("https://zh.surveymonkey.com/r/EmployeeHealthCheck")
-        # chrome.get("https://inline.app/booking/-MkBSdjj_81Mjn1vAZA6:inline-live-2/-MkBSdrkF0niJoOgE4yz?fbclid=IwAR0xEV5haTFwm7XnaU2lDpXXBL22UFkyavyFBZN3LEFE5LJfxXd4UerdTaA")
-        agreexpath = "//div[contains(@class,'radio-button-container')]//label//span[contains(@class,'radio-button-display')]"
-        agreeCheck = WebDriverWait(chrome, 15).until(
-            EC.visibility_of_element_located((By.XPATH, agreexpath)))
-        # agreeCheck
-        agreeCheck.click()
+#     chrome.get("https://inline.app/booking/-MkBSdjj_81Mjn1vAZA6:inline-live-2/-MkBSdrkF0niJoOgE4yz?fbclid=IwAR0xEV5haTFwm7XnaU2lDpXXBL22UFkyavyFBZN3LEFE5LJfxXd4UerdTaA")
+#     sleep(3)
+#     select = Select(chrome.find_element_by_id("adult-picker"))
+#     for op in select.options:
+#         print(op.text)
+#     select.select_by_index(8)
+#     print(3)
+#     try:
+#         chrome = webdriver.Chrome(ChromeDriverManager().install())
+#         # chrome = webdriver.Chrome(options=options)
+#         chrome.get("https://zh.surveymonkey.com/r/EmployeeHealthCheck")
+#         # chrome.get("https://inline.app/booking/-MkBSdjj_81Mjn1vAZA6:inline-live-2/-MkBSdrkF0niJoOgE4yz?fbclid=IwAR0xEV5haTFwm7XnaU2lDpXXBL22UFkyavyFBZN3LEFE5LJfxXd4UerdTaA")
+#         agreexpath = "//div[contains(@class,'radio-button-container')]//label//span[contains(@class,'radio-button-display')]"
+#         agreeCheck = WebDriverWait(chrome, 15).until(
+#             EC.visibility_of_element_located((By.XPATH, agreexpath)))
+#         # agreeCheck
+#         agreeCheck.click()
 
-        employeeId = chrome.find_elements_by_xpath(
-            "//div[contains(@class,'question-fieldset question-legend')]")
-        employeeId.send_keys(id)
+#         employeeId = chrome.find_elements_by_xpath(
+#             "//div[contains(@class,'question-fieldset question-legend')]")
+#         employeeId.send_keys(id)
 
-        # employId
-        employeeId = chrome.find_elements_by_xpath(
-            "//div[contains(@class,'question-body open-ended-single')]//input")[0]
-        employeeId.send_keys(id)
+#         # employId
+#         employeeId = chrome.find_elements_by_xpath(
+#             "//div[contains(@class,'question-body open-ended-single')]//input")[0]
+#         employeeId.send_keys(id)
 
-        # foreheadTemp check
-        foreheadCheckBtn = chrome.find_elements_by_xpath(
-            "//div[contains(@class,'radio-button-container')]//label//span[contains(@class,'radio-button-display')]")[2]
-        foreheadCheckBtn.click()
+#         # foreheadTemp check
+#         foreheadCheckBtn = chrome.find_elements_by_xpath(
+#             "//div[contains(@class,'radio-button-container')]//label//span[contains(@class,'radio-button-display')]")[2]
+#         foreheadCheckBtn.click()
 
-        # foreheadTemp
-        Temperature = chrome.find_elements_by_xpath(
-            "//div[contains(@class,'question-body open-ended-single')]//input")[1]
-        foreheadDegree = str(round(random.uniform(34.1, 36.9), 1))
-        Temperature.send_keys(foreheadDegree)
+#         # foreheadTemp
+#         Temperature = chrome.find_elements_by_xpath(
+#             "//div[contains(@class,'question-body open-ended-single')]//input")[1]
+#         foreheadDegree = str(round(random.uniform(34.1, 36.9), 1))
+#         Temperature.send_keys(foreheadDegree)
 
-        # contacted people who returned from aboard in the last 14 days
-        noContactBtn = chrome.find_elements_by_xpath(
-            "//div[contains(@class,'radio-button-container')]//label//span[contains(@class,'radio-button-display')]")[5]
-        noContactBtn.click()
+#         # contacted people who returned from aboard in the last 14 days
+#         noContactBtn = chrome.find_elements_by_xpath(
+#             "//div[contains(@class,'radio-button-container')]//label//span[contains(@class,'radio-button-display')]")[5]
+#         noContactBtn.click()
 
-        # declaration radio button
-        declarationBtn = chrome.find_elements_by_xpath(
-            "//div[contains(@class,'radio-button-container')]//label//span[contains(@class,'radio-button-display')]")[6]
-        declarationBtn.click()
+#         # declaration radio button
+#         declarationBtn = chrome.find_elements_by_xpath(
+#             "//div[contains(@class,'radio-button-container')]//label//span[contains(@class,'radio-button-display')]")[6]
+#         declarationBtn.click()
 
-        # submit btn to next page
-        submitBtn = chrome.find_elements_by_xpath(
-            "//button[contains(text(), '下一頁')]")[0]
-        submitBtn.click()
+#         # submit btn to next page
+#         submitBtn = chrome.find_elements_by_xpath(
+#             "//button[contains(text(), '下一頁')]")[0]
+#         submitBtn.click()
 
-        # successful landing page
-        compleredTxtPath = "(//span[@class='title-text'])"
-        compleredTxt = WebDriverWait(chrome, 10, 1).until(
-            EC.visibility_of_element_located((By.XPATH, compleredTxtPath))).text
-        print(compleredTxt+id+" degree :"+foreheadDegree)
-        chrome.quit()
+#         # successful landing page
+#         compleredTxtPath = "(//span[@class='title-text'])"
+#         compleredTxt = WebDriverWait(chrome, 10, 1).until(
+#             EC.visibility_of_element_located((By.XPATH, compleredTxtPath))).text
+#         print(compleredTxt+id+" degree :"+foreheadDegree)
+#         chrome.quit()
 
-    except TimeoutException:
-        chrome.quit()
-        global retryCount
-        retryCount += 1
-        if (retryCount == 2):
-            print(id+" Write to error log")
-            retryCount = 0
-            pass
-        else:
-            print(id+" Try again")
-            autoFill(id)
+#     except TimeoutException:
+#         chrome.quit()
+#         global retryCount
+#         retryCount += 1
+#         if (retryCount == 2):
+#             print(id+" Write to error log")
+#             retryCount = 0
+#             pass
+#         else:
+#             print(id+" Try again")
+#             autoFill(id)
 
 
 def readFile():
@@ -222,6 +222,8 @@ def readFile():
 
 
 if __name__ == "__main__":
+    # TODO: scripting
+    # TODO: error handling
     # 國秀食堂
     url = rf"https://inline.app/booking/-MkBSdjj_81Mjn1vAZA6:inline-live-2/-MkBSdrkF0niJoOgE4yz?fbclid=IwAR0xEV5haTFwm7XnaU2lDpXXBL22UFkyavyFBZN3LEFE5LJfxXd4UerdTaA"
 

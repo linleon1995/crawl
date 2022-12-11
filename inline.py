@@ -1,3 +1,4 @@
+import time
 from time import sleep
 import random
 
@@ -11,6 +12,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 
 from selenium.webdriver.support.ui import Select
 import selenium
@@ -33,13 +37,17 @@ def info_check(order_info):
 def inlineFill(order_info):
     options = Options()
     options.add_argument("--no-sandbox")
-    options.add_argument("--headless")
+    # options.add_argument("--headless")
     info_check(order_info)
+    sleep_time = 0.3
 
     try:
-        chrome = webdriver.Chrome(ChromeDriverManager().install())
+        # chrome = webdriver.Chrome(service=ChromeService(
+        #     ChromeDriverManager().install()))
+        t1 = time.time()
+        chrome = webdriver.Chrome('./chromedriver')
+        # chrome = webdriver.Chrome('./chromedriver', options=options)
         chrome.implicitly_wait(1)
-        # chrome = webdriver.Chrome(options=options)
         chrome.get(order_info['url'])
         # select = Select(chrome.find_element_by_id("book-now"))
 
@@ -72,31 +80,29 @@ def inlineFill(order_info):
         # b = chrome.find_element_by_class_name("sc-dIouRR fMba-De")
         # b.click()
 
+        t2 = time.time()
         c = chrome.find_element_by_css_selector("div[id='date-picker']")
         d = chrome.find_element_by_css_selector(
             f"div[data-date='{order_info['date']}']")
 
         chrome.execute_script(f"window.scrollTo(0, {c.location['y']})")
-        sleep(1)
+        sleep(sleep_time)
         c.click()
 
         chrome.execute_script(f"window.scrollTo(0, {d.location['y']})")
-        sleep(1)
+        sleep(sleep_time)
         d.click()
 
         e = chrome.find_element_by_css_selector(
             f"button[data-cy='book-now-time-slot-box-{order_info['time']}']")
         chrome.execute_script(f"window.scrollTo(0, {e.location['y']})")
-        sleep(1)
+        sleep(sleep_time)
         e.click()
-
-        h = 200
+        t3 = time.time()
 
         f = chrome.find_element_by_css_selector(
             "button[data-cy='book-now-action-button']")
         f.click()
-        # select = chrome.find_element_by_id("date-picker")
-        # select.text = '5月27日 週四'
 
         # TODO: the clickable situation will be influenced by the page position --> find_by_id?
         # TODO: change implicity wait
@@ -111,10 +117,22 @@ def inlineFill(order_info):
             EC.presence_of_element_located((By.XPATH, '//input[@id="phone"]')))
         h.send_keys(order_info['phone'])
 
+        sleep(sleep_time)
         submit = chrome.find_element_by_css_selector(
             "button[data-cy='submit']")
+        t4 = time.time()
+        print(f'Time: {t1-t0} sec')
+        print(f'Time: {t2-t1} sec')
+        print(f'Time: {t3-t2} sec')
+        print(f'Time: {t4-t3} sec')
+        print(f'Time: {t4-t0} sec')
         submit.click()
 
+        # TODO: 處理吧沐的confirm botton, data-cy="confirm-house-rule
+
+        # TODO:
+        sleep(100)
+        print('Complete!')
         pass
 
     except TimeoutException:
@@ -144,16 +162,25 @@ if __name__ == "__main__":
     url = rf"https://inline.app/booking/-MkBSdjj_81Mjn1vAZA6:inline-live-2/-MkBSdrkF0niJoOgE4yz?fbclid=IwAR0xEV5haTFwm7XnaU2lDpXXBL22UFkyavyFBZN3LEFE5LJfxXd4UerdTaA"
 
     # 青花驕
-    url = r"https://inline.app/booking/-MaXEQcbiWaRjXyLytUu:inline-live-2/-MaXER3I3tbJ6YWZIFGu"
+    url = r"https://inline.app/booking/-MaXEQcbiWaRjXyLytUu:inline-live-2/-MaXf4tGf3cunx-MStor?language=zh-tw"
 
     # The Antipodean
-    url = r'https://inline.app/booking/-L_qemGeN-S-qEAIAtd1:inline-live-2a466/-N0o8OYl1h-G6dH-bowt'
+    # url = r'https://inline.app/booking/-L_qemGeN-S-qEAIAtd1:inline-live-2a466/-N0o8OYl1h-G6dH-bowt'
 
     # 海底撈
-    url = r'https://inline.app/booking/-LamXb5SAQN7JcJfyRKi:inline-live-2a466/-LamXbrHgLYzPCKRO3QD'
+    # url = r'https://inline.app/booking/-LamXb5SAQN7JcJfyRKi:inline-live-2a466/-LamXbrHgLYzPCKRO3QD'
 
     # 詹紀
     # url = r'https://inline.app/booking/-KO9-zyZTRpTH7LNAe99/-LOcon_dHjl7H4_PR39w?language=zh-tw'
+
+    # 酒灑
+    # url = r'https://inline.app/booking/-MyeIq6w0WlGH5oRFcd_:inline-live-2/-MyeIqIyLZ5S6ZK_Cke5?language=zh-tw'
+
+    # 吧沐
+    # url = r'https://inline.app/booking/-Mn4FfHBBwA49zeGtMrF:inline-live-2/-Mn4FfRSxcIrDcxydG0c'
+
+    # Clock
+    # url = r"https://tw.piliapp.com/time-now/tw/taipei/"
 
     order_info = {'name': '林敬翔',
                   'phone': "953216976",
@@ -161,7 +188,7 @@ if __name__ == "__main__":
                   'gender': 'male',
                   'kid': 0,
                   'url': url,
-                  'date': '2022-12-29',
-                  'time': '17-00'}
+                  'date': '2022-12-28',
+                  'time': '19-30'}
     inlineFill(order_info)
     # autoFill('a')
